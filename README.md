@@ -1,2 +1,2 @@
 # google-or-experiments
-test the limits and break through
+Understand that computational limits of Google OR tools, in preparation of Hash Code 2020.
