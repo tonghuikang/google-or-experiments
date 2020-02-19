@@ -98,7 +98,7 @@ Use of Kaggle kernels
 Optimisation problems addressed by the solver are linear problems, and all of such problems can be considered to be a integer program. However, there are specific algorithms that work on the subclass of problems, and it is usually better for multiple reasons - faster computation, less memory used, and feasible solutions is more likely to be found.
 
 
-- **Integer programming**
+- **Mixed Integer programming**
   - **Linear programming**
     - Min-cost flow problem
       - Max-flow problem
@@ -106,7 +106,7 @@ Optimisation problems addressed by the solver are linear problems, and all of su
       - Shortest path problem
       - Transportation problem
         - Assignment problem
-  - **Constraint programming**
+  - **Constraint programming (Integer)**
     - Binary programming
       - Knapsack
       - **Vehicle routing problem**
@@ -115,7 +115,7 @@ Optimisation problems addressed by the solver are linear problems, and all of su
 
 <div style="page-break-after: always;"></div>
 
-## Integer programming
+## Mixed Integer programming
 
 > OR-Tools provides an interface to several third-party MIP solvers. The [Coin-or branch and cut (CBC)](https://projects.coin-or.org/Cbc) solver is included with OR-Tools. You can use it whether you install OR-Tools from binary or source.
 
@@ -159,9 +159,15 @@ To be computed
 
 ## Constraint programming
 
-Maximise a linear function subject to linear constraints where all variables  have integer constraints.
+Maximise a linear function subject to linear constraints where all variables  have integer constraints. Not sure if ortools calls other solvers.
 
-- 2017 Quals - Online streaming (?)
+- 2017 Quals - Online streaming (requires 10m binary parameters, I am going to try this out)
+
+1m binary parameters takes 500 seconds to initialise.
+
+https://www.kaggle.com/huikang/hashcode-2017-quals?scriptVersionId=28919506
+
+We assign a score for each assignment.
 
 
 
