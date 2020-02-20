@@ -135,10 +135,6 @@ Use of other third party tools may be considered, but the default is chosen beca
 
 
 
-**Limits**
-
-To be computed
-
 
 
 
@@ -149,10 +145,6 @@ Maximise a linear function subject to linear constraints where variables does no
 A linear program is an integer program where none of the decision variables or its constraints are integers. This is unlikely to happen in hashcode.
 
 
-
-**Limits**
-
-To be computed
 
 
 <div style="page-break-after: always;"></div>
@@ -262,14 +254,30 @@ Can we use the library to solve large problems? https://github.com/google/or-too
 This is me considering the merits of using ortools. 
 
 > Memory - It is possible to avoid storing the (81b = 90k * 90k) distance matrix by defining a function. Probably can use the cloud server with large memory to store such a big matrix.
-> Runtime - Tried the different options, I do not know the benefits so I use automatic. If 6k nodes take 2 minutes, 12k nodes takes 8 minutes, 90k nodes will take 448 minutes = 7.5 hours.
-> Algorithms - Probably it will compute using the trivial methods, but the library gives us access to the more advanced methods. Maybe we can initialise a simple solution and use the library to find better solutions, one node at a time. 
+> Runtime - Tried the different options, I do not know the benefits so I use automatic. 6k nodes took 2 minutes, 12k nodes took 8 minutes, 80k nodes took = 5.5 hours. I think this is merely computing with one algorithm.
+> Algorithms - Probably it will compute using the trivial methods, but the library gives us access to the more advanced methods. Maybe we can initialise a simple solution and use the library to find better solutions, one node at a time.
 
-Probably, I would use 
 
-**Limits**
 
-To be computed
+## ortools Limits
+
+- Travelling salesman - 80k nodes too 5.5 hours for initial solution. https://www.kaggle.com/huikang/hashcode-2019-quals?scriptVersionId=28836490. Probably should have done it manually with a high memory notebook server.
+- Vehicle routing - yet to test, on the magnitude of TSP
+- Constraint programming - decent solution for 500 x 500 binary variables with 80% sparsity https://www.kaggle.com/huikang/hashcode-cp/notebook?scriptVersionId=28967736, failed for 1000 x 1000 binary variables with 80% sparsity. 1500 x 1500 binary variables zero sparity was optimised in 40 minutes, but the weights are all the same. https://www.kaggle.com/huikang/hashcode-cp?scriptVersionId=28933823
+- Mixed integer programming - I do not thing you ever need to use this. Just round off the numbers and make it a constraint programming problem.
+
+
+
+Things I think should have been solved
+
+- Fast and good baseline solution. Many of the problems have a feasible solution. We would want good baseline solution immediately before we proceed.
+- Ability to pause/stop when the solution exceeds a certain number.
+- Vectorisation? Currently every variable is considered alone.
+- Honestly, solvers should be smarter and learn how to prim with deep learning and AI.
+
+
+
+
 
 
 
@@ -370,6 +378,16 @@ Data analysis should be done better and presented. We should also learn earlier 
 
 
 
+**What did not work out at all**
+
+Kaggle. I could have some form of version control, result snapshot, parallel execution. The downside is that I woudl have needed to download everytime I want to submit. I could not upload the hash code dataset into Kaggle dataset, rendering the platform useless. Eventually this was not necessary because the algorithms is not computationally intensive.
+
+High memory servers. I was preparing for a question that require memory intensive calculations. Eventually they were not used.
+
+Google ortools. I could not find any use case for ortools. Scores are used to sort the libraries in the question.
+
+
+
 **Effectiveness of teamwork**
 
 We want to do better than four individual people coding independently. We do share results with each other and that is great. Everybody do not need to do everything - I do not have to be concerned with test case a, b and d.
@@ -387,7 +405,7 @@ It would be much better if we use the same language. Here in this team we used t
 
 I needed to write everything. The book sorting algorithm could been shared.
 
-However, there are risks and complications when teammates depend on each other, and time is wasted when communicating standards. Each member who are making submissions, will need to be able to run code from input to ouput anyway.
+However, there are risks and complications when teammates depend on each other, and time is wasted when communicating standards. Each member who are making submissions, will need to be able to run code from input to output anyway.
 
 
 
