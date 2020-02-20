@@ -270,3 +270,125 @@ Probably, I would use
 **Limits**
 
 To be computed
+
+
+
+## Preparation log
+
+(I was anticipating a memory intensive algorithm, so I prepared five servers with 100GB memory each. I did not use this because there was no constraint programming involved.)
+
+Google Cloud Free Quotas
+
+Per region
+
+- 8 vCPU
+- 100 GB SSD drive
+- Memory not regulated
+
+Globally
+
+- 12 vCPU
+
+![gcp](assets/gcp.png)
+
+Settings used
+
+- 2 vCPU
+- 100 GB SSD
+- 160 GB (entended memory)
+- Upload SSH keys
+
+Installation script (should have tested the bash script)
+
+```bash
+export LC_ALL=C
+sudo apt-get update
+sudo apt-get upgrade -y
+sudo apt-get install git unzip python3 python3-pip python3-pandas python3-notebook jupyter jupyter-core python-ipykernel -y
+pip3 install numpy scipy scikit-learn
+pip3 install --upgrade --user ortools
+jupyter notebook --generate-config
+mkdir -p .jupyter && cd ./.jupyter && rm * && wget https://gist.githubusercontent.com/tonghuikang/5e36f80da1128d38d5c818b57ea205dd/raw/22a16c303a9ed25d6e2e2dcedd13c994fc8ff459/jupyter_notebook_config.py
+cd ..
+
+jupyter notebook
+```
+
+Connection script
+```bash
+ssh -N -L localhost:9000:localhost:8888 35.185.180.18
+ssh -N -L localhost:9001:localhost:8888 35.189.189.148
+ssh -N -L localhost:9002:localhost:8888 35.226.121.168
+ssh -N -L localhost:9003:localhost:8888 34.64.167.228
+ssh -N -L localhost:9004:localhost:8888 34.87.217.176
+```
+
+
+
+
+
+# Contest reflections
+
+**Performance**
+
+We scored **26,519,314** placing us at rank **843** out of 10714 nonzero submissions, The max score obtained is **27,203,691**. The cutoff score for finals is **27,081,995**.
+
+For future reference, this was the insight offered after you have made every submission.
+
+> Your submission scored **5,345,656** points.
+>
+> The library signup has been completed for **17 out of 1,000** libraries (1.70%). *Your submissions lists **1** more library that could not be signed up in time*. The last library signup process ended on day **683** of 700 days. Library signup took **40.24** days on average.
+>
+> A total of **13,072** books have been scanned. **13,072** of those books were distinct with an average score of **408.94**. This is **13.07%** of the 100,000 books available across all libraries. The minimum score of a scanned book was **1** and the maximum score of a scanned book was **800**.
+
+
+
+**Solution framework**
+
+The framework seems to be good for our level of expertise. The framework follows two steps
+
+- Sort the libraries to sign up
+  - Give each library a score based its properties (signup time, number of books they can deliver a day, and score of the books they have)
+  - The library with the highest score will be sorted first.
+- Sort the books to scan
+  - The books with the highest score is scanned first. Books that are already scanned will be ignored to allow other books to be scanned.
+
+An issue with this framework is that libraries are considered independently. Two libraries may have exactly the same books and both are awarded a high score. (We are not sure of the impact however.) In response to this, we modify the scoring algorithm
+
+- The score is also dependent on the number of days remaining. Books that could have been scanned if there are more days are ignored in the scoring.
+- The score of a book is reduced to zero when another library is going to scan the book.
+
+This is the resulting code https://gist.github.com/tonghuikang/16afd708ed0b62240fdda86c49c249fa
+
+
+
+**What should have been done**
+
+We should have written a judge right at the start. There are some fine-tuning at the end that could be made more efficient with our own judge-function, and our solutions are not computationally intensive. Ultimately, these local optimisation does not increase our score too much and would only matter if we already achieved rankings very close to qualifying for finals.
+
+Data analysis should be done better and presented. We should also learn earlier that the platform provide a set of insights to your solution. I promised to do it at the start but did not deliver :/
+
+
+
+**Effectiveness of teamwork**
+
+We want to do better than four individual people coding independently. We do share results with each other and that is great. Everybody do not need to do everything - I do not have to be concerned with test case a, b and d.
+
+Sharing results has helped us to progress. I also shared a rudimentary heurisitc at 3:23am that scored 2.7 million for test case f, which was improved to 5.2 million by Starla.
+
+It would be much better if we use the same language. Here in this team we used three languages - C++, Java and Python. The problem can be broken down in a few functions, it would have made things
+
+- Parsing function
+- Library sorting function
+  - Library scoring function
+- Book sorting function
+- Output function
+- Grading function
+
+I needed to write everything. The book sorting algorithm could been shared.
+
+However, there are risks and complications when teammates depend on each other, and time is wasted when communicating standards. Each member who are making submissions, will need to be able to run code from input to ouput anyway.
+
+
+
+All reflections here happen with the benefit of hindsight (though I have yet to read another solution).
